@@ -3,7 +3,8 @@ import { useBudgetStore } from '../store/useBudgetStore';
 import { useSettingsStore } from '../store/useSettingsStore';
 import { calculateTaskResults } from '../utils/calculations';
 import { CartItem, Phase } from '../types';
-import { Trash2, ChevronDown, ChevronUp, Package, Clock, ShoppingCart, ArrowLeft } from 'lucide-react';
+import { Trash2, ChevronDown, ChevronUp, Package, Clock, ShoppingCart, ArrowLeft, ListChecks } from 'lucide-react';
+import { ShoppingListView } from './ShoppingListView';
 
 const PHASE_CONFIG = {
   A: { label: 'Cimientos',      dot: 'bg-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200',     row: 'bg-sky-50/40'     },
@@ -107,10 +108,13 @@ const ItemCard: React.FC<{ item: CartItem; onRemove: () => void }> = ({ item, on
   );
 };
 
+type CartTab = 'budget' | 'shopping';
+
 /* ─── Cart view ──────────────────────────────────────────────────────────── */
 export const CartView: React.FC<CartViewProps> = ({ onBack }) => {
   const { cart, removeFromCart, clearCart, getTotalWasteVolume } = useBudgetStore();
   const { getHourlyRate } = useSettingsStore();
+  const [tab, setTab] = useState<CartTab>('budget');
 
   const totalBudget = useMemo(() =>
     cart.reduce((acc, item) => {
@@ -165,26 +169,59 @@ export const CartView: React.FC<CartViewProps> = ({ onBack }) => {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="bg-white border-b border-slate-200 px-8 py-5 flex items-center gap-4 flex-shrink-0">
-        {onBack && (
-          <button onClick={onBack} className="p-2 -ml-2 hover:bg-slate-100 rounded-lg transition text-slate-500 hover:text-slate-700">
-            <ArrowLeft size={18} />
-          </button>
-        )}
-        <div className="flex-1">
-          <h1 className="text-xl font-bold text-slate-900">Presupuesto</h1>
-          <p className="text-sm text-slate-500 mt-0.5">{cart.length} tareas seleccionadas</p>
+      <div className="bg-white border-b border-slate-200 px-4 md:px-8 pt-5 flex-shrink-0">
+        <div className="flex items-center gap-4 pb-4">
+          {onBack && (
+            <button onClick={onBack} className="p-2 -ml-2 hover:bg-slate-100 rounded-lg transition text-slate-500 hover:text-slate-700">
+              <ArrowLeft size={18} />
+            </button>
+          )}
+          <div className="flex-1">
+            <h1 className="text-xl font-bold text-slate-900">Presupuesto</h1>
+            <p className="text-sm text-slate-500 mt-0.5">{cart.length} tareas seleccionadas</p>
+          </div>
+          {tab === 'budget' && (
+            <button
+              onClick={clearCart}
+              className="text-sm font-medium text-red-500 hover:text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Vaciar todo
+            </button>
+          )}
         </div>
-        <button
-          onClick={clearCart}
-          className="text-sm font-medium text-red-500 hover:text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors"
-        >
-          Vaciar todo
-        </button>
+
+        {/* Tabs */}
+        <div className="flex gap-1">
+          <button
+            onClick={() => setTab('budget')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+              tab === 'budget'
+                ? 'border-sky-500 text-sky-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            <ShoppingCart size={15} />
+            Desglose
+          </button>
+          <button
+            onClick={() => setTab('shopping')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
+              tab === 'shopping'
+                ? 'border-sky-500 text-sky-600'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            <ListChecks size={15} />
+            Lista de compras
+          </button>
+        </div>
       </div>
 
-      {/* Body */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 pb-32 md:pb-28 space-y-8">
+      {/* Shopping list tab */}
+      {tab === 'shopping' && <ShoppingListView />}
+
+      {/* Budget tab body */}
+      {tab === 'budget' && <div className="flex-1 overflow-y-auto p-4 md:p-8 pb-32 md:pb-28 space-y-8">
 
         {/* Phase groups */}
         {(['A', 'B', 'C'] as Phase[]).map(p => {
@@ -235,37 +272,39 @@ export const CartView: React.FC<CartViewProps> = ({ onBack }) => {
             </div>
           </div>
         )}
-      </div>
+      </div>}
 
-      {/* Sticky total */}
-      <div className="bg-white border-t border-slate-200 px-4 md:px-8 py-4 md:py-5 flex-shrink-0 mb-16 md:mb-0">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm text-slate-500 font-medium">Total estimado</div>
-            <div className="text-xs text-slate-400 mt-0.5">Sin gastos indirectos ni honorarios</div>
+      {/* Sticky total — only on budget tab */}
+      {tab === 'budget' && (
+        <div className="bg-white border-t border-slate-200 px-4 md:px-8 py-4 md:py-5 flex-shrink-0 mb-16 md:mb-0">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-slate-500 font-medium">Total estimado</div>
+              <div className="text-xs text-slate-400 mt-0.5">Sin gastos indirectos ni honorarios</div>
+            </div>
+            <div className="text-3xl font-bold text-slate-900">${fmtARS(totalBudget)}</div>
           </div>
-          <div className="text-3xl font-bold text-slate-900">${fmtARS(totalBudget)}</div>
+
+          {/* Phase breakdown */}
+          {Object.keys(phaseTotals).filter(p => p !== 'none').length > 1 && (
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              {(['A', 'B', 'C'] as Phase[]).map(p => {
+                const t = phaseTotals[p];
+                if (!t) return null;
+                const pc = PHASE_CONFIG[p];
+                const pct = totalBudget > 0 ? (t / totalBudget) * 100 : 0;
+                return (
+                  <div key={p} className={`rounded-xl p-3 border ${pc.badge}`}>
+                    <div className="text-xs font-semibold mb-0.5">{pc.label}</div>
+                    <div className="text-sm font-bold">${fmtARS(t)}</div>
+                    <div className="text-xs opacity-70">{pct.toFixed(0)}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-
-        {/* Phase breakdown */}
-        {Object.keys(phaseTotals).filter(p => p !== 'none').length > 1 && (
-          <div className="mt-4 grid grid-cols-3 gap-3">
-            {(['A', 'B', 'C'] as Phase[]).map(p => {
-              const t = phaseTotals[p];
-              if (!t) return null;
-              const pc = PHASE_CONFIG[p];
-              const pct = totalBudget > 0 ? (t / totalBudget) * 100 : 0;
-              return (
-                <div key={p} className={`rounded-xl p-3 border ${pc.badge}`}>
-                  <div className="text-xs font-semibold mb-0.5">{pc.label}</div>
-                  <div className="text-sm font-bold">${fmtARS(t)}</div>
-                  <div className="text-xs opacity-70">{pct.toFixed(0)}%</div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };
