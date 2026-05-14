@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import data from './data/data.json';
 import { Category, SubCategory, Task, Phase } from './types';
 import { calculateTaskResults, TaskResults } from './utils/calculations';
@@ -9,6 +9,7 @@ import { ResultsDashboard } from './components/ResultsDashboard';
 import { CartView } from './components/CartView';
 import { SettingsPanel } from './components/SettingsPanel';
 import { ConstructionMap } from './components/ConstructionMap';
+import { GlobalSearch } from './components/GlobalSearch';
 import { Logo } from './components/Logo';
 import {
   Home, ShoppingCart, Settings, Search, ArrowLeft,
@@ -66,9 +67,22 @@ export default function App() {
   const [leftovers, setLeftovers] = useState<Record<string, number>>({});
   const [settings, setSettings]   = useState(false);
   const [search, setSearch]       = useState('');
+  const [globalSearch, setGlobalSearch] = useState(false);
 
   const { cart, addToCart } = useBudgetStore();
   const { getHourlyRate }   = useSettingsStore();
+
+  // Keyboard shortcut: "/" opens global search
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === '/' && !(e.target instanceof HTMLInputElement) && !(e.target instanceof HTMLTextAreaElement)) {
+        e.preventDefault();
+        setGlobalSearch(true);
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   const totalBudget = useMemo(() =>
     cart.reduce((acc, item) => {
@@ -91,6 +105,14 @@ export default function App() {
   const goCategory = (c: Category) => { setCat(c); setSub(null); setTask(null); setSearch(''); setView('subs'); };
   const goSub      = (s: SubCategory) => { setSub(s); setTask(null); setSearch(''); setView('tasks'); };
   const goTask     = (t: Task) => { setTask(t as Task); setQty(0); setLeftovers({}); setView('config'); };
+
+  const goTaskFromSearch = (t: Task, categoryId: string, subcategoryId: string) => {
+    const foundCat = categories.find(c => c.id === categoryId) ?? null;
+    const foundSub = foundCat?.subcategories.find(s => s.id === subcategoryId) ?? null;
+    setCat(foundCat);
+    setSub(foundSub);
+    goTask(t);
+  };
   const addCart    = () => {
     if (!task || qty <= 0) return;
     addToCart({ id: Math.random().toString(36).substr(2, 9), task, quantity: qty, appliedLeftovers: leftovers, phase: cat?.phase, categoryId: cat?.id });
@@ -115,8 +137,20 @@ export default function App() {
           </div>
         </div>
 
+        {/* Search button */}
+        <div className="px-3 pt-3">
+          <button
+            onClick={() => setGlobalSearch(true)}
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-slate-400 hover:text-slate-200 border border-white/[0.06]"
+          >
+            <Search size={13} />
+            <span className="text-xs flex-1 text-left">Buscar tarea…</span>
+            <kbd className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded font-mono">/</kbd>
+          </button>
+        </div>
+
         {/* Top nav */}
-        <div className="px-3 pt-3 pb-1 space-y-1">
+        <div className="px-3 pt-2 pb-1 space-y-1">
           <SidebarBtn icon={<Home size={15} />} label="Inicio" active={view === 'home'} onClick={() => setView('home')} />
           <SidebarBtn icon={<GitBranch size={15} />} label="Diagrama de Obra" active={view === 'workflow'} onClick={() => setView('workflow')} />
         </div>
@@ -183,6 +217,9 @@ export default function App() {
                   : 'Pichón'}
               </div>
             </div>
+            <button onClick={() => setGlobalSearch(true)} className="p-2 text-slate-500 hover:text-slate-700 transition-colors">
+              <Search size={20} />
+            </button>
             <button onClick={() => setView('cart')} className="relative p-2 text-slate-500">
               <ShoppingCart size={20} />
               {cart.length > 0 && (
@@ -236,6 +273,14 @@ export default function App() {
       </nav>
 
       {settings && <SettingsPanel onClose={() => setSettings(false)} />}
+
+      {globalSearch && (
+        <GlobalSearch
+          categories={categories}
+          onSelectTask={goTaskFromSearch}
+          onClose={() => setGlobalSearch(false)}
+        />
+      )}
     </div>
   );
 }
