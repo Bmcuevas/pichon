@@ -1,0 +1,1583 @@
+[
+  {
+    "id": "c1",
+    "name": "1.0 TRABAJOS PRELIMINARES",
+    "phase": "A",
+    "predecessors": [],
+    "subcategories": [
+      {
+        "id": "s1.1",
+        "name": "1.1 DEMOLICIONES",
+        "tasks": [
+          {
+            "id": "t1.1.1",
+            "name": "1.1.1 Cubiertas",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 16,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t1.1.2",
+            "name": "1.1.2 Entrepisos",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 24,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t1.1.3",
+            "name": "1.1.3 Mampostería",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 32,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t1.1.4",
+            "name": "1.1.4 Revoques",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 16,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t1.1.5",
+            "name": "1.1.5 Pisos",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 24,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "s1.2",
+        "name": "1.2 LIMPIEZA DEL TERRENO",
+        "tasks": [
+          {
+            "id": "t1.2.1",
+            "name": "1.2.1 Desmalezamiento",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 8,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t1.2.2",
+            "name": "1.2.2 Corte de árboles y retiro de tocones",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 16,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "s1.3",
+        "name": "1.3 VALLA PROVISORIA",
+        "tasks": [
+          {
+            "id": "t1.3.1",
+            "name": "1.3.1 De fenólico h:2,20m",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_fenolico",
+                  "name": "Placa Fenólico 18mm",
+                  "unit": "m2",
+                  "cost": 8000,
+                  "commercialUnit": "placa",
+                  "commercialPackagingQuantity": 2.97,
+                  "wasteFactor": 1.1,
+                  "yield": 1.05
+                },
+                {
+                  "id": "m_tirante",
+                  "name": "Tirante pino 3x3",
+                  "unit": "m",
+                  "cost": 2500,
+                  "commercialUnit": "tira",
+                  "commercialPackagingQuantity": 3.05,
+                  "wasteFactor": 1.1,
+                  "yield": 2.5
+                },
+                {
+                  "id": "m_clavos",
+                  "name": "Clavos",
+                  "unit": "kg",
+                  "cost": 1500,
+                  "commercialUnit": "kg",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.05,
+                  "yield": 0.15
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.6,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.6,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t1.3.2",
+            "name": "1.3.2 De media sombra h:2,20m",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_mediasombra",
+                  "name": "Media sombra alta densidad",
+                  "unit": "m2",
+                  "cost": 800,
+                  "commercialUnit": "rollo",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 1.1
+                },
+                {
+                  "id": "m_alambre",
+                  "name": "Alambre",
+                  "unit": "kg",
+                  "cost": 2500,
+                  "commercialUnit": "kg",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.05,
+                  "yield": 0.05
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.2,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.2,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "s1.4",
+        "name": "1.4 CASILLA PARA OBRADOR",
+        "tasks": [
+          {
+            "id": "t1.4.1",
+            "name": "1.4.1 De madera, tabla 1'' y tirantes 3x3''",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_tabla",
+                  "name": "Tabla pino 1x6",
+                  "unit": "m2",
+                  "cost": 4000,
+                  "commercialUnit": "m2",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 1.2
+                },
+                {
+                  "id": "m_tirante",
+                  "name": "Tirante pino 3x3",
+                  "unit": "m",
+                  "cost": 2500,
+                  "commercialUnit": "tira",
+                  "commercialPackagingQuantity": 3.05,
+                  "wasteFactor": 1.1,
+                  "yield": 3
+                },
+                {
+                  "id": "m_chapa",
+                  "name": "Chapa acanalada",
+                  "unit": "m2",
+                  "cost": 7000,
+                  "commercialUnit": "chapa",
+                  "commercialPackagingQuantity": 2.5,
+                  "wasteFactor": 1.1,
+                  "yield": 1.2
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 1.5,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 1.5,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c2",
+    "name": "2.0 MOVIMIENTO DE TIERRA",
+    "phase": "A",
+    "predecessors": [
+      "c1"
+    ],
+    "subcategories": [
+      {
+        "id": "s2.1",
+        "name": "2.1 Movimiento de Tierra Manual",
+        "tasks": [
+          {
+            "id": "t2.1.1",
+            "name": "2.1.1 Excavación manual para cimientos/zanjas",
+            "unit": "m3",
+            "wasteEstimator": {
+              "factor": 13,
+              "description": "Esponjamiento de tierra para volquetes (1.3 m3 x m3 exc.)"
+            },
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 4,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t2.1.2",
+            "name": "2.1.2 Desmonte y nivelación manual",
+            "unit": "m2",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.5,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t2.1.3",
+            "name": "2.1.3 Relleno y compactación manual con tierra propia",
+            "unit": "m3",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 2.5,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c3",
+    "name": "3.0 ESTRUCTURA RESISTENTE",
+    "phase": "A",
+    "predecessors": [
+      "c2"
+    ],
+    "subcategories": [
+      {
+        "id": "s3.1",
+        "name": "3.1 Hormigón Armado",
+        "tasks": [
+          {
+            "id": "t3.1.1",
+            "name": "3.1.1 Bases y Troncos",
+            "unit": "m3",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 300
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.65
+                },
+                {
+                  "id": "m_piedra",
+                  "name": "Piedra partida",
+                  "unit": "m3",
+                  "cost": 30000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.65
+                },
+                {
+                  "id": "m_hierro",
+                  "name": "Hierro aletado",
+                  "unit": "kg",
+                  "cost": 1200,
+                  "commercialUnit": "varilla",
+                  "commercialPackagingQuantity": 10,
+                  "wasteFactor": 1.1,
+                  "yield": 80
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 4,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 8,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t3.1.2",
+            "name": "3.1.2 Columnas y Vigas",
+            "unit": "m3",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 350
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.65
+                },
+                {
+                  "id": "m_piedra",
+                  "name": "Piedra partida",
+                  "unit": "m3",
+                  "cost": 30000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.65
+                },
+                {
+                  "id": "m_hierro",
+                  "name": "Hierro aletado",
+                  "unit": "kg",
+                  "cost": 1200,
+                  "commercialUnit": "varilla",
+                  "commercialPackagingQuantity": 10,
+                  "wasteFactor": 1.1,
+                  "yield": 120
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 8,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 10,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t3.1.3",
+            "name": "3.1.3 Losas macizas",
+            "unit": "m3",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 350
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.65
+                },
+                {
+                  "id": "m_piedra",
+                  "name": "Piedra partida",
+                  "unit": "m3",
+                  "cost": 30000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.65
+                },
+                {
+                  "id": "m_hierro",
+                  "name": "Hierro aletado",
+                  "unit": "kg",
+                  "cost": 1200,
+                  "commercialUnit": "varilla",
+                  "commercialPackagingQuantity": 10,
+                  "wasteFactor": 1.1,
+                  "yield": 100
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 6,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 8,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c4",
+    "name": "4.0 MAMPOSTERÍA",
+    "phase": "B",
+    "predecessors": [
+      "c3"
+    ],
+    "subcategories": [
+      {
+        "id": "s4.1",
+        "name": "4.1 Muros de ladrillo cerámico",
+        "tasks": [
+          {
+            "id": "t4.1.1",
+            "name": "4.1.1 Muro de ladrillo hueco 18x19x33",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_lad_18",
+                  "name": "Ladrillo hueco 18x19x33",
+                  "unit": "u",
+                  "cost": 450,
+                  "commercialUnit": "pallet",
+                  "commercialPackagingQuantity": 144,
+                  "wasteFactor": 1.1,
+                  "yield": 15
+                },
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 3
+                },
+                {
+                  "id": "m_cal",
+                  "name": "Cal",
+                  "unit": "kg",
+                  "cost": 100,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 25,
+                  "wasteFactor": 1.05,
+                  "yield": 4
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.015
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.8,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.4,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t4.1.2",
+            "name": "4.1.2 Muro de ladrillo común de 15cm",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_lad_comun",
+                  "name": "Ladrillo común",
+                  "unit": "u",
+                  "cost": 80,
+                  "commercialUnit": "pallet",
+                  "commercialPackagingQuantity": 1000,
+                  "wasteFactor": 1.1,
+                  "yield": 60
+                },
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 4
+                },
+                {
+                  "id": "m_cal",
+                  "name": "Cal",
+                  "unit": "kg",
+                  "cost": 100,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 25,
+                  "wasteFactor": 1.05,
+                  "yield": 5
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.025
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 1.2,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.6,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c5",
+    "name": "5.0 CUBIERTAS",
+    "phase": "B",
+    "predecessors": [
+      "c3"
+    ],
+    "subcategories": [
+      {
+        "id": "s5.1",
+        "name": "5.1 Cubiertas Planas",
+        "tasks": [
+          {
+            "id": "t5.1.1",
+            "name": "5.1.1 Contrapiso de pendiente con Leca",
+            "unit": "m3",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 250
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.4
+                },
+                {
+                  "id": "m_leca",
+                  "name": "Leca",
+                  "unit": "m3",
+                  "cost": 45000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 1
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 3,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 6,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c6",
+    "name": "6.0 REVOQUES",
+    "phase": "C",
+    "predecessors": [
+      "c4"
+    ],
+    "subcategories": [
+      {
+        "id": "s6.1",
+        "name": "6.1 Interiores",
+        "tasks": [
+          {
+            "id": "t6.1.1",
+            "name": "6.1.1 Revoque grueso",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cal",
+                  "name": "Cal",
+                  "unit": "kg",
+                  "cost": 100,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 25,
+                  "wasteFactor": 1.05,
+                  "yield": 6
+                },
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 1.5
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.025
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.6,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.3,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t6.1.2",
+            "name": "6.1.2 Revoque fino a la cal",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cal_aerea",
+                  "name": "Cal aérea",
+                  "unit": "kg",
+                  "cost": 120,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 25,
+                  "wasteFactor": 1.05,
+                  "yield": 2.5
+                },
+                {
+                  "id": "m_arena_fina",
+                  "name": "Arena fina",
+                  "unit": "m3",
+                  "cost": 28000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.005
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.4,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.2,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c7",
+    "name": "7.0 CAPAS AISLADORAS",
+    "phase": "B",
+    "predecessors": [
+      "c2"
+    ],
+    "subcategories": [
+      {
+        "id": "s7.1",
+        "name": "7.1 Aislaciones Horizontales",
+        "tasks": [
+          {
+            "id": "t7.1.1",
+            "name": "7.1.1 Doble capa sobre mampostería",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 8
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.02
+                },
+                {
+                  "id": "m_hidrofugo",
+                  "name": "Hidrófugo",
+                  "unit": "kg",
+                  "cost": 4000,
+                  "commercialUnit": "balde",
+                  "commercialPackagingQuantity": 10,
+                  "wasteFactor": 1.05,
+                  "yield": 0.8
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.5,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.5,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "s7.2",
+        "name": "7.2 Aislaciones Verticales",
+        "tasks": [
+          {
+            "id": "t7.2.1",
+            "name": "7.2.1 Azotado hidrófugo bajo revoque",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 6
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.015
+                },
+                {
+                  "id": "m_hidrofugo",
+                  "name": "Hidrófugo",
+                  "unit": "kg",
+                  "cost": 4000,
+                  "commercialUnit": "balde",
+                  "commercialPackagingQuantity": 10,
+                  "wasteFactor": 1.05,
+                  "yield": 0.6
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.4,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.4,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c8",
+    "name": "8.0 CIELORRASOS INDEPENDIENTES",
+    "phase": "C",
+    "predecessors": [
+      "c5"
+    ],
+    "subcategories": [
+      {
+        "id": "s8.1",
+        "name": "8.1 Cielorrasos Suspendidos",
+        "tasks": [
+          {
+            "id": "t8.1.1",
+            "name": "8.1.1 De placas de yeso con estructura",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_placa_yeso",
+                  "name": "Placa de yeso",
+                  "unit": "m2",
+                  "cost": 3500,
+                  "commercialUnit": "placa",
+                  "commercialPackagingQuantity": 2.88,
+                  "wasteFactor": 1.1,
+                  "yield": 1.05
+                },
+                {
+                  "id": "m_perfiles",
+                  "name": "Soleras/Montantes",
+                  "unit": "m",
+                  "cost": 1500,
+                  "commercialUnit": "tira",
+                  "commercialPackagingQuantity": 2.6,
+                  "wasteFactor": 1.1,
+                  "yield": 3
+                },
+                {
+                  "id": "m_tornillos",
+                  "name": "Tornillos T2",
+                  "unit": "u",
+                  "cost": 15,
+                  "commercialUnit": "caja",
+                  "commercialPackagingQuantity": 100,
+                  "wasteFactor": 1.05,
+                  "yield": 15
+                },
+                {
+                  "id": "m_masilla",
+                  "name": "Masilla para placas",
+                  "unit": "kg",
+                  "cost": 1200,
+                  "commercialUnit": "balde",
+                  "commercialPackagingQuantity": 18,
+                  "wasteFactor": 1.05,
+                  "yield": 0.5
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.5,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.5,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c9",
+    "name": "9.0 CONTRAPISOS",
+    "phase": "B",
+    "predecessors": [
+      "c3"
+    ],
+    "subcategories": [
+      {
+        "id": "s9.1",
+        "name": "9.1 Hormigón de cascotes",
+        "tasks": [
+          {
+            "id": "t9.1.1",
+            "name": "9.1.1 Sobre suelo natural",
+            "unit": "m3",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cem",
+                  "name": "Cemento Portland",
+                  "unit": "kg",
+                  "cost": 150,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 50,
+                  "wasteFactor": 1.05,
+                  "yield": 35
+                },
+                {
+                  "id": "m_cal",
+                  "name": "Cal",
+                  "unit": "kg",
+                  "cost": 100,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 25,
+                  "wasteFactor": 1.05,
+                  "yield": 90
+                },
+                {
+                  "id": "m_arena",
+                  "name": "Arena",
+                  "unit": "m3",
+                  "cost": 25000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.45
+                },
+                {
+                  "id": "m_cascote",
+                  "name": "Cascote",
+                  "unit": "m3",
+                  "cost": 15000,
+                  "commercialUnit": "bolsón",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.1,
+                  "yield": 0.9
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 2.9,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 5.8,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c10",
+    "name": "10.0 PINTURA",
+    "phase": "C",
+    "predecessors": [
+      "c6",
+      "c8"
+    ],
+    "subcategories": [
+      {
+        "id": "s10.1",
+        "name": "10.1 Interiores",
+        "tasks": [
+          {
+            "id": "t10.1.1",
+            "name": "10.1.1 Látex sobre revoque 2 manos",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_latex",
+                  "name": "Pintura Látex",
+                  "unit": "L",
+                  "cost": 5000,
+                  "commercialUnit": "lata",
+                  "commercialPackagingQuantity": 20,
+                  "wasteFactor": 1.05,
+                  "yield": 0.25
+                },
+                {
+                  "id": "m_fijador",
+                  "name": "Fijador",
+                  "unit": "L",
+                  "cost": 3000,
+                  "commercialUnit": "lata",
+                  "commercialPackagingQuantity": 4,
+                  "wasteFactor": 1.05,
+                  "yield": 0.1
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.2,
+                  "hourlyRate": 15000
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c11",
+    "name": "11.0 YESERÍA",
+    "phase": "C",
+    "predecessors": [
+      "c4"
+    ],
+    "subcategories": [
+      {
+        "id": "s11.1",
+        "name": "11.1 Interiores",
+        "tasks": [
+          {
+            "id": "t11.1.1",
+            "name": "11.1.1 Enlucido de yeso sobre muros",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_yeso",
+                  "name": "Yeso en polvo",
+                  "unit": "kg",
+                  "cost": 300,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 30,
+                  "wasteFactor": 1.1,
+                  "yield": 15
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.5,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.25,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c13",
+    "name": "13.0 PISOS",
+    "phase": "C",
+    "predecessors": [
+      "c9"
+    ],
+    "subcategories": [
+      {
+        "id": "s13.1",
+        "name": "13.1 Cerámicos y Porcelanatos",
+        "tasks": [
+          {
+            "id": "t13.1.1",
+            "name": "13.1.1 Piso cerámico 30x30 con pegamento",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_ceramica",
+                  "name": "Cerámica",
+                  "unit": "m2",
+                  "cost": 8000,
+                  "commercialUnit": "caja",
+                  "commercialPackagingQuantity": 1.5,
+                  "wasteFactor": 1.1,
+                  "yield": 1.05
+                },
+                {
+                  "id": "m_pegamento",
+                  "name": "Pegamento cerámico",
+                  "unit": "kg",
+                  "cost": 400,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 30,
+                  "wasteFactor": 1.05,
+                  "yield": 4
+                },
+                {
+                  "id": "m_pastina",
+                  "name": "Pastina",
+                  "unit": "kg",
+                  "cost": 2000,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.05,
+                  "yield": 0.2
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.6,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.3,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c14",
+    "name": "14.0 ZÓCALOS",
+    "phase": "C",
+    "predecessors": [
+      "c13"
+    ],
+    "subcategories": [
+      {
+        "id": "s14.1",
+        "name": "14.1 Zócalos de interior",
+        "tasks": [
+          {
+            "id": "t14.1.1",
+            "name": "14.1.1 Zócalo cerámico",
+            "unit": "ml",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_ceramica",
+                  "name": "Cerámica",
+                  "unit": "m2",
+                  "cost": 8000,
+                  "commercialUnit": "caja",
+                  "commercialPackagingQuantity": 1.5,
+                  "wasteFactor": 1.1,
+                  "yield": 0.15
+                },
+                {
+                  "id": "m_pegamento",
+                  "name": "Pegamento cerámico",
+                  "unit": "kg",
+                  "cost": 400,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 30,
+                  "wasteFactor": 1.05,
+                  "yield": 1
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.15,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.05,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c23",
+    "name": "23.0 REVESTIMIENTOS",
+    "phase": "C",
+    "predecessors": [
+      "c6"
+    ],
+    "subcategories": [
+      {
+        "id": "s23.1",
+        "name": "23.1 Locales Húmedos",
+        "tasks": [
+          {
+            "id": "t23.1.1",
+            "name": "23.1.1 Revestimiento cerámico en baños",
+            "unit": "m2",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_ceramica",
+                  "name": "Cerámica",
+                  "unit": "m2",
+                  "cost": 8000,
+                  "commercialUnit": "caja",
+                  "commercialPackagingQuantity": 1.5,
+                  "wasteFactor": 1.1,
+                  "yield": 1.05
+                },
+                {
+                  "id": "m_pegamento",
+                  "name": "Pegamento cerámico",
+                  "unit": "kg",
+                  "cost": 400,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 30,
+                  "wasteFactor": 1.05,
+                  "yield": 4
+                },
+                {
+                  "id": "m_pastina",
+                  "name": "Pastina",
+                  "unit": "kg",
+                  "cost": 2000,
+                  "commercialUnit": "bolsa",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.05,
+                  "yield": 0.2
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.7,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.35,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c24",
+    "name": "24.0 CONDUCTOS Y VENTILACIONES",
+    "phase": "B",
+    "predecessors": [
+      "c4"
+    ],
+    "subcategories": [
+      {
+        "id": "s24.1",
+        "name": "24.1 Chapa galvanizada",
+        "tasks": [
+          {
+            "id": "t24.1.1",
+            "name": "24.1.1 Conducto de ventilación D=100mm",
+            "unit": "ml",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_cano_chapa",
+                  "name": "Caño chapa galvanizada",
+                  "unit": "m",
+                  "cost": 6000,
+                  "commercialUnit": "tira",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1.05,
+                  "yield": 1
+                },
+                {
+                  "id": "m_grampas",
+                  "name": "Grampas de fijación",
+                  "unit": "u",
+                  "cost": 300,
+                  "commercialUnit": "unidad",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1,
+                  "yield": 1
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 0.4,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 0.4,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c33",
+    "name": "33.0 OBRAS VARIAS",
+    "phase": "C",
+    "predecessors": [
+      "c1"
+    ],
+    "subcategories": [
+      {
+        "id": "s33.1",
+        "name": "33.1 AYUDA DE GREMIO",
+        "tasks": [
+          {
+            "id": "t33.1.1",
+            "name": "33.1.1 Carpinterías",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 16,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t33.1.2",
+            "name": "33.1.2 Instalación eléctrica",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 24,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          },
+          {
+            "id": "t33.1.3",
+            "name": "33.1.3 Instalación sanitaria",
+            "unit": "Gl",
+            "apu": {
+              "materials": [],
+              "labor": [
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 32,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "s33.2",
+        "name": "33.2 ESTUFAS",
+        "tasks": [
+          {
+            "id": "t33.2.1",
+            "name": "33.2.1 Premoldeada BOZZI o similar",
+            "unit": "Gl",
+            "apu": {
+              "materials": [
+                {
+                  "id": "m_estufa",
+                  "name": "Estufa premoldeada",
+                  "unit": "u",
+                  "yield": 1,
+                  "cost": 350000,
+                  "commercialUnit": "unidad",
+                  "commercialPackagingQuantity": 1,
+                  "wasteFactor": 1
+                }
+              ],
+              "labor": [
+                {
+                  "role": "Oficial",
+                  "hoursPerUnit": 8,
+                  "hourlyRate": 15000
+                },
+                {
+                  "role": "Ayudante",
+                  "hoursPerUnit": 8,
+                  "hourlyRate": 12500
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

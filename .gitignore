@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+vendor/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+
+# Datos fuente (regenerables con build_react_data.py)
+*.xlsx
+*.xls
+
+# Entorno
+.env
+.env.*
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

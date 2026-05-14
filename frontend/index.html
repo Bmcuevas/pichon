@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es" x-data="pichon()" x-init="init()">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pichón — Presupuestos de Obra</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Sora', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+          colors: {
+            brand: {
+              50:  '#f0f4ff',
+              100: '#dde6ff',
+              200: '#c3d1ff',
+              300: '#9db2ff',
+              400: '#7088ff',
+              500: '#4660f5',
+              600: '#2e3fea',
+              700: '#2330d0',
+              800: '#1f2ba8',
+              900: '#1a2380',
+              950: '#121655',
+            },
+            gold: {
+              400: '#f4c430',
+              500: '#e6ac00',
+              600: '#c49200',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+
+    body { background: #0d0f1a; }
+
+    /* Grain texture overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .glass-light {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .input-field {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: white;
+      transition: all 0.2s;
+    }
+    .input-field:focus {
+      outline: none;
+      border-color: #4660f5;
+      background: rgba(70,96,245,0.08);
+      box-shadow: 0 0 0 3px rgba(70,96,245,0.15);
+    }
+    .input-field::placeholder { color: rgba(255,255,255,0.3); }
+
+    select.input-field option { background: #1a1c2e; color: white; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4660f5, #7088ff);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(70,96,245,0.4); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+
+    /* Animated gradient border on result card */
+    .result-card {
+      position: relative;
+      background: rgba(13,15,26,0.8);
+      border-radius: 1.5rem;
+    }
+    .result-card::before {
+      content: '';
+      position: absolute; inset: -1px;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #4660f5, #7088ff, #4660f5);
+      background-size: 200% 200%;
+      animation: gradientMove 4s ease infinite;
+      z-index: -1;
+    }
+    @keyframes gradientMove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Rubro bar */
+    .rubro-bar {
+      height: 6px;
+      border-radius: 3px;
+      transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Spinner */
+    .spinner {
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: #4660f5;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Slide up animation for results */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .slide-up { animation: slideUp 0.5s ease forwards; }
+
+    /* Table scroll */
+    .table-scroll { max-height: 340px; overflow-y: auto; }
+    .table-scroll::-webkit-scrollbar { width: 4px; }
+    .table-scroll::-webkit-scrollbar-track { background: transparent; }
+    .table-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+    .logo-dot {
+      width: 10px; height: 10px;
+      background: #f4c430;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 2px;
+      vertical-align: middle;
+    }
+
+    /* Tab active */
+    .tab-active {
+      background: rgba(70,96,245,0.2);
+      border-color: #4660f5 !important;
+      color: #7088ff;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-white font-sans relative z-10">
+
+  <!-- ── HEADER ─────────────────────────────────────────────────────────────── -->
+  <header class="fixed top-0 inset-x-0 z-50 px-6 py-4 flex items-center justify-between"
+          style="background: rgba(13,15,26,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06);">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center text-sm font-bold">P</div>
+      <span class="text-lg font-semibold tracking-tight">Pichón<span class="logo-dot"></span></span>
+      <span class="hidden sm:block text-xs text-white/30 ml-1 font-mono">v0.1</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <button @click="showTasas = !showTasas"
+              class="btn-outline text-xs px-3 py-1.5 rounded-lg text-white/60 flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-green-400"></span>
+        <span x-text="`USD ${tasas.usd_ars.toLocaleString('es-AR')} ARS`"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── TASAS MODAL ─────────────────────────────────────────────────────────── -->
+  <div x-show="showTasas" x-cloak x-transition
+       class="fixed inset-0 z-50 flex items-center justify-center p-4"
+       style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);">
+    <div class="glass rounded-2xl p-6 w-full max-w-sm space-y-4" @click.outside="showTasas = false">
+      <h3 class="font-semibold text-white">Actualizar tipo de cambio</h3>
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs text-white/50 mb-1 block">EUR / USD</label>
+          <input type="number" step="0.01" x-model.number="tasaForm.eur_usd"
+                 class="input-field w-full rounded-xl px-4 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1 block">USD / ARS (tipo libre)</label>
+          <input type="number" step="10" x-model.number="tasaForm.usd_ars"
+                 class="input-field w-full rounded-xl px-4 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="text-xs text-white/50 mb-1 block">Período (YYYY-MM)</label>
+          <input type="text" x-model="tasaForm.fecha"
+                 class="input-field w-full rounded-xl px-4 py-2.5 text-sm font-mono" />
+        </div>
+      </div>
+      <div class="flex gap-3 pt-1">
+        <button @click="showTasas = false" class="btn-outline flex-1 py-2.5 rounded-xl text-sm text-white/60">Cancelar</button>
+        <button @click="guardarTasas()" class="btn-primary flex-1 py-2.5 rounded-xl text-sm font-medium">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HERO + FORM ─────────────────────────────────────────────────────────── -->
+  <main class="pt-24 pb-16 px-4 sm:px-6 max-w-7xl mx-auto">
+
+    <!-- Hero text -->
+    <div class="text-center mb-12 space-y-3">
+      <p class="text-brand-400 text-sm font-mono tracking-widest uppercase">Motor paramétrico</p>
+      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight">
+        Presupuestos de obra<br/>
+        <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #4660f5, #7088ff, #f4c430)">
+          en segundos.
+        </span>
+      </h1>
+      <p class="text-white/40 text-lg max-w-xl mx-auto">
+        Cómputo métrico paramétrico basado en la base BC3/CYPE.
+        Referencia EUR · Estimado ARS actualizable.
+      </p>
+    </div>
+
+    <!-- Form card -->
+    <div class="glass rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto mb-10">
+      <h2 class="text-sm font-mono text-white/40 uppercase tracking-widest mb-6">Datos del proyecto</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+        <!-- Tipología -->
+        <div class="space-y-2">
+          <label class="text-sm text-white/60">Tipología</label>
+          <select x-model="form.tipologia" class="input-field w-full rounded-xl px-4 py-3 text-sm appearance-none">
+            <option value="casa_unifamiliar">Casa Unifamiliar</option>
+            <option value="departamento">Departamento</option>
+            <option value="local_comercial">Local Comercial</option>
+            <option value="oficina">Oficina</option>
+            <option value="galpon">Galpón</option>
+          </select>
+        </div>
+
+        <!-- Calidad -->
+        <div class="space-y-2">
+          <label class="text-sm text-white/60">Calidad</label>
+          <div class="grid grid-cols-3 gap-2">
+            <template x-for="c in ['economica','estandar','premium']">
+              <button @click="form.calidad = c"
+                      :class="form.calidad === c ? 'tab-active' : 'btn-outline text-white/40'"
+                      class="py-3 rounded-xl text-xs font-medium border capitalize transition-all"
+                      x-text="c === 'economica' ? 'Económica' : c === 'estandar' ? 'Estándar' : 'Premium'">
+              </button>
+            </template>
+          </div>
+        </div>
+
+        <!-- Superficie -->
+        <div class="space-y-2">
+          <label class="text-sm text-white/60">Superficie cubierta</label>
+          <div class="relative">
+            <input type="number" x-model.number="form.superficie" min="20" max="50000" step="5"
+                   placeholder="120"
+                   class="input-field w-full rounded-xl px-4 py-3 text-sm pr-14" />
+            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 text-sm font-mono">m²</span>
+          </div>
+          <!-- Slider -->
+          <input type="range" x-model.number="form.superficie" min="30" max="1000" step="5"
+                 class="w-full accent-brand-500 mt-1" />
+          <div class="flex justify-between text-xs text-white/20 font-mono">
+            <span>30m²</span><span>500m²</span><span>1000m²</span>
+          </div>
+        </div>
+
+        <!-- Provincia -->
+        <div class="space-y-2">
+          <label class="text-sm text-white/60">Provincia</label>
+          <select x-model="form.provincia" class="input-field w-full rounded-xl px-4 py-3 text-sm appearance-none">
+            <template x-for="prov in provincias">
+              <option :value="prov" x-text="prov"></option>
+            </template>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="mt-8 flex flex-col sm:flex-row gap-3 items-center">
+        <button @click="calcular()" :disabled="loading"
+                class="btn-primary w-full sm:w-auto px-10 py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-3">
+          <div x-show="loading" class="spinner w-5 h-5"></div>
+          <span x-text="loading ? 'Calculando…' : 'Calcular presupuesto'"></span>
+        </button>
+        <span class="text-xs text-white/20 text-center sm:text-left">
+          ~1s · base BC3 con 4.907 tareas
+        </span>
+      </div>
+
+      <!-- Error -->
+      <div x-show="error" x-cloak class="mt-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm" x-text="error"></div>
+    </div>
+
+    <!-- ── RESULTADOS ──────────────────────────────────────────────────────────── -->
+    <div x-show="resultado" x-cloak class="slide-up space-y-6">
+
+      <!-- KPI strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <template x-for="kpi in kpis()" :key="kpi.label">
+          <div class="glass rounded-2xl p-5 space-y-1">
+            <p class="text-xs text-white/40 font-mono uppercase tracking-wider" x-text="kpi.label"></p>
+            <p class="text-2xl font-bold tracking-tight" x-text="kpi.value"></p>
+            <p class="text-xs text-white/30" x-text="kpi.sub"></p>
+          </div>
+        </template>
+      </div>
+
+      <!-- Alerta CAC -->
+      <div x-show="resultado?.ars?.alerta" x-cloak
+           class="px-5 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm flex items-center gap-3">
+        <span class="text-lg">⚠</span>
+        <span x-text="resultado?.ars?.alerta"></span>
+      </div>
+
+      <!-- Grid: Chart + Rubros -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+        <!-- Donut chart -->
+        <div class="glass rounded-2xl p-6 lg:col-span-2 flex flex-col items-center justify-center">
+          <h3 class="text-sm font-mono text-white/40 uppercase tracking-wider mb-4 w-full">Distribución</h3>
+          <div class="relative w-48 h-48">
+            <canvas id="rubroChart"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span class="text-2xl font-bold" x-text="fmtUSD(resultado?.ars?.total_usd)"></span>
+              <span class="text-xs text-white/40">total USD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rubros list -->
+        <div class="glass rounded-2xl p-6 lg:col-span-3 space-y-3">
+          <h3 class="text-sm font-mono text-white/40 uppercase tracking-wider mb-4">Por rubro</h3>
+          <template x-for="r in resultado?.rubros" :key="r.letra">
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-baseline">
+                <span class="text-sm text-white/80" x-text="r.nombre"></span>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-white/40 font-mono" x-text="fmtARS(r.total_ars)"></span>
+                  <span class="text-xs font-mono font-medium text-brand-300 w-10 text-right" x-text="r.porcentaje.toFixed(1) + '%'"></span>
+                </div>
+              </div>
+              <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-700"
+                     :style="`width: ${r.porcentaje}%; background: ${rubroColor(r.porcentaje)}`"></div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Tabs: Tareas / Geometria / Materiales -->
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="flex border-b border-white/5">
+          <template x-for="tab in ['Tareas', 'Geometría', 'Materiales']" :key="tab">
+            <button @click="activeTab = tab"
+                    :class="activeTab === tab ? 'tab-active border-b-2' : 'text-white/30 border-b-2 border-transparent'"
+                    class="px-6 py-4 text-sm font-medium transition-all"
+                    x-text="tab">
+            </button>
+          </template>
+        </div>
+
+        <!-- TAREAS -->
+        <div x-show="activeTab === 'Tareas'" class="p-4">
+          <div class="table-scroll">
+            <table class="w-full text-sm">
+              <thead class="sticky top-0" style="background: rgba(13,15,26,0.95)">
+                <tr class="text-white/30 text-xs font-mono uppercase">
+                  <th class="text-left py-3 px-3">Código</th>
+                  <th class="text-left py-3 px-3">Descripción</th>
+                  <th class="text-right py-3 px-3">Ud.</th>
+                  <th class="text-right py-3 px-3">Cant.</th>
+                  <th class="text-right py-3 px-3">EUR/ud</th>
+                  <th class="text-right py-3 px-3">Total EUR</th>
+                  <th class="text-right py-3 px-3">Total ARS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template x-for="(t, i) in resultado?.tareas" :key="t.codigo_tarea">
+                  <tr :class="i % 2 === 0 ? 'bg-white/[0.02]' : ''"
+                      class="hover:bg-brand-500/5 transition-colors">
+                    <td class="py-2.5 px-3 font-mono text-brand-400 text-xs" x-text="t.codigo_tarea"></td>
+                    <td class="py-2.5 px-3 text-white/70" x-text="t.nombre_tarea.slice(0,50)"></td>
+                    <td class="py-2.5 px-3 text-right text-white/40 font-mono text-xs" x-text="t.unidad"></td>
+                    <td class="py-2.5 px-3 text-right font-mono text-xs" x-text="t.cantidad.toFixed(2)"></td>
+                    <td class="py-2.5 px-3 text-right font-mono text-xs text-white/50" x-text="fmtEUR(t.precio_unitario_eur)"></td>
+                    <td class="py-2.5 px-3 text-right font-mono text-xs" x-text="fmtEUR(t.importe_eur)"></td>
+                    <td class="py-2.5 px-3 text-right font-mono text-xs text-brand-300" x-text="fmtARS(t.importe_ars)"></td>
+                  </tr>
+                </template>
+              </tbody>
+              <tfoot style="background: rgba(13,15,26,0.95)" class="sticky bottom-0">
+                <tr class="font-semibold text-xs border-t border-white/10">
+                  <td colspan="5" class="py-3 px-3 text-white/50">TOTAL</td>
+                  <td class="py-3 px-3 text-right font-mono" x-text="fmtEUR(resultado?.total_eur)"></td>
+                  <td class="py-3 px-3 text-right font-mono text-brand-300" x-text="fmtARS(resultado?.ars?.total_ars)"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- GEOMETRÍA -->
+        <div x-show="activeTab === 'Geometría'" class="p-6">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <template x-for="g in geoItems()" :key="g.label">
+              <div class="glass-light rounded-xl p-4 space-y-1">
+                <p class="text-xs text-white/40" x-text="g.label"></p>
+                <p class="text-xl font-bold font-mono" x-text="g.value"></p>
+                <p class="text-xs text-white/25 font-mono" x-text="g.unit"></p>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- MATERIALES -->
+        <div x-show="activeTab === 'Materiales'" class="p-6">
+          <div class="space-y-4 max-w-lg">
+            <template x-for="m in resultado?.tareas ? materialesBreakdown() : []" :key="m.label">
+              <div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                  <span class="text-white/70" x-text="m.label"></span>
+                  <div class="text-right">
+                    <span class="font-mono text-white/60 text-xs" x-text="fmtEUR(m.eur)"></span>
+                    <span class="text-white/20 mx-2">·</span>
+                    <span class="font-mono text-brand-300 text-xs" x-text="m.pct.toFixed(1) + '%'"></span>
+                  </div>
+                </div>
+                <div class="h-2 bg-white/5 rounded-full">
+                  <div class="h-full rounded-full" :style="`width:${m.pct}%; background:${m.color}`"></div>
+                </div>
+              </div>
+            </template>
+          </div>
+          <p class="text-xs text-white/25 mt-6">
+            Los precios EUR son referencia España (CYPE). Los valores ARS aplican factores de ajuste por tipo de ítem y tipo de cambio vigente.
+          </p>
+        </div>
+      </div>
+
+      <!-- Download buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button @click="descargar('excel')" :disabled="downloading === 'excel'"
+                class="btn-outline px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-3 text-white/70">
+          <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          <span x-text="downloading === 'excel' ? 'Generando…' : 'Descargar Excel'"></span>
+        </button>
+        <button @click="descargar('pdf')" :disabled="downloading === 'pdf'"
+                class="btn-outline px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-3 text-white/70">
+          <svg class="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+          <span x-text="downloading === 'pdf' ? 'Generando…' : 'Descargar PDF'"></span>
+        </button>
+      </div>
+
+    </div><!-- /resultados -->
+
+  </main>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
+  <footer class="text-center py-8 text-xs text-white/15 font-mono">
+    Pichón · Motor BC3 + CYPE · Precios de referencia España (EUR) · v0.1
+  </footer>
+
+  <!-- ── ALPINE LOGIC ───────────────────────────────────────────────────────── -->
+  <script>
+  const API = 'http://localhost:8000';
+
+  function pichon() {
+    return {
+      form: { tipologia: 'casa_unifamiliar', calidad: 'estandar', superficie: 120, provincia: 'Buenos Aires' },
+      tasas: { eur_usd: 1.08, usd_ars: 1150, fecha: '2026-05' },
+      tasaForm: {},
+      showTasas: false,
+      loading: false,
+      error: null,
+      resultado: null,
+      activeTab: 'Tareas',
+      downloading: null,
+      chart: null,
+
+      provincias: [
+        'Buenos Aires','CABA','Catamarca','Chaco','Chubut','Córdoba','Corrientes',
+        'Entre Ríos','Formosa','Jujuy','La Pampa','La Rioja','Mendoza','Misiones',
+        'Neuquén','Río Negro','Salta','San Juan','San Luis','Santa Cruz',
+        'Santa Fe','Santiago del Estero','Tierra del Fuego','Tucumán'
+      ],
+
+      async init() {
+        try {
+          const r = await fetch(`${API}/tasas`);
+          this.tasas = await r.json();
+        } catch {}
+        this.tasaForm = { ...this.tasas };
+      },
+
+      async calcular() {
+        this.loading = true;
+        this.error = null;
+        try {
+          const r = await fetch(`${API}/presupuesto`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.form),
+          });
+          if (!r.ok) throw new Error((await r.json()).detail);
+          this.resultado = await r.json();
+          this.$nextTick(() => this.renderChart());
+        } catch (e) {
+          this.error = 'Error al calcular: ' + (e.message || 'servidor no disponible');
+        } finally {
+          this.loading = false;
+        }
+      },
+
+      async guardarTasas() {
+        try {
+          const r = await fetch(`${API}/tasas`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.tasaForm),
+          });
+          this.tasas = await r.json();
+          this.showTasas = false;
+        } catch (e) {
+          alert('Error actualizando tasas: ' + e.message);
+        }
+      },
+
+      async descargar(tipo) {
+        this.downloading = tipo;
+        try {
+          const r = await fetch(`${API}/presupuesto/${tipo}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.form),
+          });
+          if (!r.ok) throw new Error('Error del servidor');
+          const blob = await r.blob();
+          const ext = tipo === 'excel' ? 'xlsx' : 'pdf';
+          const name = `presupuesto_${this.form.tipologia}_${this.form.calidad}_${this.form.superficie}m2.${ext}`;
+          const url = URL.createObjectURL(blob);
+          Object.assign(document.createElement('a'), { href: url, download: name }).click();
+          URL.revokeObjectURL(url);
+        } catch (e) {
+          alert('Error descargando: ' + e.message);
+        } finally {
+          this.downloading = null;
+        }
+      },
+
+      kpis() {
+        if (!this.resultado) return [];
+        const r = this.resultado;
+        return [
+          { label: 'Total EUR (ref.)',  value: this.fmtEUR(r.total_eur),        sub: `${this.fmtEUR(r.costo_eur_por_m2)} / m²` },
+          { label: 'Total USD',         value: this.fmtUSD(r.ars.total_usd),    sub: `${this.fmtUSD(r.ars.costo_usd_por_m2)} / m²` },
+          { label: 'Total ARS',         value: this.fmtARS(r.ars.total_ars),    sub: `${this.fmtARS(r.ars.costo_ars_por_m2)} / m²` },
+          { label: 'Ref. CAC',          value: this.fmtUSD(r.ars.cac_ref_usd_m2), sub: `${r.ars.desviacion_cac_pct > 0 ? '+' : ''}${r.ars.desviacion_cac_pct}% vs CAC` },
+        ];
+      },
+
+      geoItems() {
+        if (!this.resultado) return [];
+        const g = this.resultado.geometria;
+        return [
+          { label: 'Superficie cubierta',   value: g.superficie_cubierta.toFixed(0), unit: 'm²' },
+          { label: 'Perímetro',              value: g.perimetro.toFixed(1),           unit: 'ml' },
+          { label: 'Muros exteriores',       value: g.area_muros_ext.toFixed(1),      unit: 'm²' },
+          { label: 'Tabiques interiores',    value: g.area_muros_int.toFixed(1),      unit: 'm²' },
+          { label: 'Cubierta',               value: g.area_cubierta.toFixed(1),       unit: 'm²' },
+          { label: 'Pisos',                  value: g.area_pisos.toFixed(1),          unit: 'm²' },
+          { label: 'Zonas húmedas',          value: g.area_zonas_humedas.toFixed(1),  unit: 'm²' },
+          { label: 'Cimientos',              value: g.ml_cimientos.toFixed(1),         unit: 'ml' },
+          { label: 'Excavación',             value: g.vol_excavacion.toFixed(2),       unit: 'm³' },
+          { label: 'Baños estimados',        value: g.n_banos,                         unit: 'ud' },
+          { label: 'Pilares estimados',      value: g.n_pilares,                       unit: 'ud' },
+        ];
+      },
+
+      materialesBreakdown() {
+        const tareas = this.resultado?.tareas || [];
+        const totals = { Material: 0, 'Mano de obra': 0, 'Maquinaria/Equipos': 0, 'Costos compl.': 0 };
+        tareas.forEach(t => t.items.forEach(it => {
+          const k = it.tipo === 'MATERIAL' ? 'Material'
+                  : it.tipo === 'MANO_OBRA' ? 'Mano de obra'
+                  : it.tipo === 'MAQUINARIA' ? 'Maquinaria/Equipos'
+                  : 'Costos compl.';
+          totals[k] = (totals[k] || 0) + it.importe_eur;
+        }));
+        const total = Object.values(totals).reduce((a, b) => a + b, 0) || 1;
+        const colors = { 'Material': '#4660f5', 'Mano de obra': '#f4c430', 'Maquinaria/Equipos': '#7088ff', 'Costos compl.': '#888' };
+        return Object.entries(totals).map(([label, eur]) => ({
+          label, eur, pct: eur / total * 100, color: colors[label]
+        }));
+      },
+
+      rubroColor(pct) {
+        if (pct > 25) return '#f59e0b';
+        if (pct > 15) return '#4660f5';
+        return '#7088ff';
+      },
+
+      renderChart() {
+        const ctx = document.getElementById('rubroChart');
+        if (!ctx || !this.resultado) return;
+        if (this.chart) this.chart.destroy();
+        const rubros = this.resultado.rubros.filter(r => r.total_usd > 0);
+        this.chart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: rubros.map(r => r.nombre),
+            datasets: [{
+              data: rubros.map(r => r.total_usd),
+              backgroundColor: ['#4660f5','#7088ff','#f4c430','#e2694f','#34d399','#60a5fa','#a78bfa','#f472b6','#fb923c','#94a3b8'],
+              borderWidth: 2,
+              borderColor: '#0d0f1a',
+              hoverOffset: 6,
+            }]
+          },
+          options: {
+            cutout: '72%',
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => ` USD ${ctx.raw.toLocaleString('es-AR')} (${(ctx.raw / this.resultado.ars.total_usd * 100).toFixed(1)}%)`
+                },
+                backgroundColor: 'rgba(13,15,26,0.9)',
+                borderColor: 'rgba(255,255,255,0.1)',
+                borderWidth: 1,
+                titleColor: '#fff',
+                bodyColor: 'rgba(255,255,255,0.6)',
+              }
+            }
+          }
+        });
+      },
+
+      fmtEUR: v => v == null ? '—' : `€ ${Number(v).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
+      fmtARS: v => v == null ? '—' : `$ ${Number(v).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
+      fmtUSD: v => v == null ? '—' : `USD ${Number(v).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
+    };
+  }
+  </script>
+</body>
+</html>
