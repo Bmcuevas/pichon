@@ -184,7 +184,7 @@ export const CartView: React.FC<CartViewProps> = ({ onBack }) => {
       </div>
 
       {/* Body */}
-      <div className="flex-1 overflow-y-auto p-8 space-y-8">
+      <div className="flex-1 overflow-y-auto p-4 md:p-8 pb-32 md:pb-28 space-y-8">
 
         {/* Phase groups */}
         {(['A', 'B', 'C'] as Phase[]).map(p => {
@@ -238,7 +238,7 @@ export const CartView: React.FC<CartViewProps> = ({ onBack }) => {
       </div>
 
       {/* Sticky total */}
-      <div className="bg-white border-t border-slate-200 px-8 py-5 flex-shrink-0">
+      <div className="bg-white border-t border-slate-200 px-4 md:px-8 py-4 md:py-5 flex-shrink-0 mb-16 md:mb-0">
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm text-slate-500 font-medium">Total estimado</div>
