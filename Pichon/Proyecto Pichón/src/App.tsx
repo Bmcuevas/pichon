@@ -16,7 +16,10 @@ import {
   Home, ShoppingCart, Settings, Search, ArrowLeft,
   ChevronRight, Hammer, Mountain, Building2, Layers,
   Shield, Zap, DoorOpen, Grid3X3, Tag, LayoutGrid, X,
-  Package, GitBranch, type LucideIcon
+  Package, GitBranch, Wrench, Droplets, Flame, Wind,
+  Wifi, TreePine, Ruler, Paintbrush, Thermometer,
+  Lightbulb, UtensilsCrossed, PanelLeft, ArrowDown,
+  type LucideIcon
 } from 'lucide-react';
 
 /* ─── PHASE CONFIG ───────────────────────────────────────────────────────── */
@@ -52,8 +55,78 @@ const PHASE = {
 
 const CAT_ICON: Record<string, LucideIcon> = {
   D: Hammer, A: Mountain, C: Building2, E: Layers,
-  F: LayoutGrid, N: Shield, Q: Layers, I: Zap,
+  F: LayoutGrid, N: Shield, Q: Home, I: Zap,
   L: DoorOpen, R: Grid3X3, S: Tag,
+};
+
+const SUB_ICON: Record<string, LucideIcon> = {
+  // Demoliciones
+  sub_DC: Hammer,      sub_DD: Building2,   sub_DE: Building2,
+  sub_DF: Wrench,      sub_DH: Layers,      sub_DI: Layers,
+  sub_DL: Grid3X3,     sub_DM: Layers,      sub_DN: Shield,
+  sub_DP: Grid3X3,     sub_DQ: Home,        sub_DR: Layers,
+  sub_DS: Tag,         sub_DU: Mountain,
+  // Acondicionamiento del terreno
+  sub_AD: Mountain,    sub_AH: Layers,      sub_AM: Mountain,
+  sub_AN: Mountain,    sub_AP: Mountain,    sub_AS: Ruler,
+  sub_AU: Mountain,
+  // Fundaciones
+  sub_CA: Layers,      sub_CC: Layers,      sub_CE: Layers,
+  sub_CH: Hammer,      sub_CM: Hammer,      sub_CN: Ruler,
+  sub_CP: ArrowDown,   sub_CR: Layers,      sub_CS: Layers,
+  sub_CT: Hammer,      sub_CV: Layers,
+  // Estructuras
+  sub_EA: Zap,         sub_EC: Layers,      sub_EF: TreePine,
+  sub_EH: Layers,      sub_EM: Building2,   sub_EP: Layers,
+  sub_EW: Building2,   sub_EX: Layers,
+  // Fachadas y Tabiques
+  sub_FA: Building2,   sub_FB: Layers,      sub_FC: Building2,
+  sub_FD: Building2,   sub_FE: Building2,   sub_FF: Layers,
+  sub_FG: Building2,   sub_FI: PanelLeft,   sub_FJ: PanelLeft,
+  sub_FK: Building2,   sub_FL: Building2,   sub_FM: Layers,
+  sub_FN: PanelLeft,   sub_FO: Building2,   sub_FP: PanelLeft,
+  sub_FR: Building2,   sub_FS: Layers,      sub_FT: Building2,
+  sub_FU: PanelLeft,   sub_FV: Shield,
+  // Aislamientos e Impermeabilizaciones
+  sub_NA: Droplets,    sub_NB: Shield,      sub_NC: Droplets,
+  sub_ND: Shield,      sub_NE: Droplets,    sub_NG: Shield,
+  sub_NH: Droplets,    sub_NI: Shield,      sub_NK: Shield,
+  sub_NL: Droplets,    sub_NM: Shield,      sub_NO: Droplets,
+  sub_NR: Shield,      sub_NS: Droplets,    sub_NT: Layers,
+  sub_NV: Shield,      sub_NW: Shield,
+  // Cubiertas
+  sub_QA: Home,        sub_QB: Home,        sub_QC: Home,
+  sub_QD: Home,        sub_QE: Home,        sub_QL: Home,
+  sub_QM: Home,        sub_QR: Home,        sub_QS: Home,
+  sub_QT: Home,        sub_QU: Home,        sub_QV: Home,
+  // Instalaciones
+  sub_IA: Zap,         sub_IB: Wrench,      sub_IC: Thermometer,
+  sub_ID: Wifi,        sub_IE: Zap,         sub_IF: Droplets,
+  sub_IG: Flame,       sub_IH: Flame,       sub_II: Lightbulb,
+  sub_IL: Zap,         sub_IM: Wrench,      sub_IN: Zap,
+  sub_IO: Thermometer, sub_IP: Droplets,    sub_IS: Droplets,
+  sub_IT: Wifi,        sub_IV: Wind,        sub_IW: Zap,
+  sub_IX: Wrench,
+  // Carpintería y Vidrios
+  sub_LA: DoorOpen,    sub_LB: DoorOpen,    sub_LC: DoorOpen,
+  sub_LE: DoorOpen,    sub_LF: Layers,      sub_LG: DoorOpen,
+  sub_LI: DoorOpen,    sub_LM: DoorOpen,    sub_LN: DoorOpen,
+  sub_LP: Layers,      sub_LR: DoorOpen,    sub_LS: DoorOpen,
+  sub_LT: Layers,      sub_LU: DoorOpen,    sub_LV: Layers,
+  // Revestimientos y Trasdosados
+  sub_RA: Grid3X3,     sub_RB: Grid3X3,     sub_RD: Grid3X3,
+  sub_RE: Grid3X3,     sub_RF: Paintbrush,  sub_RG: Layers,
+  sub_RH: Grid3X3,     sub_RI: Paintbrush,  sub_RK: Grid3X3,
+  sub_RL: Grid3X3,     sub_RM: Layers,      sub_RN: Grid3X3,
+  sub_RO: Grid3X3,     sub_RP: Layers,      sub_RQ: Grid3X3,
+  sub_RR: Grid3X3,     sub_RS: Grid3X3,     sub_RT: Layers,
+  sub_RU: Paintbrush,  sub_RV: Grid3X3,     sub_RX: Grid3X3,
+  // Señalización y Equipamiento
+  sub_SA: Droplets,    sub_SC: UtensilsCrossed, sub_SD: Tag,
+  sub_SE: Tag,         sub_SG: Droplets,    sub_SI: Tag,
+  sub_SM: UtensilsCrossed, sub_SN: Tag,     sub_SP: Droplets,
+  sub_SS: Tag,         sub_ST: Tag,         sub_SV: Droplets,
+  sub_SZ: UtensilsCrossed,
 };
 
 type View = 'home' | 'workflow' | 'subs' | 'tasks' | 'config' | 'cart';
@@ -429,8 +502,11 @@ function SubsContent({ cat, onSelect, onBack }: { cat: Category; onSelect: (s: S
             <button key={s.id} onClick={() => onSelect(s)}
               className="group bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg p-4 md:p-5 rounded-xl transition-all text-left">
               <div className="flex justify-between items-start mb-3">
-                <div className="p-2 bg-slate-100 group-hover:bg-blue-50 rounded-xl transition-colors">
-                  <LayoutGrid size={15} className="text-slate-500 group-hover:text-blue-600 transition-colors" />
+                <div className={`p-2 rounded-xl transition-colors ${pc ? `${pc.iconBg} group-hover:bg-opacity-80` : 'bg-slate-100 group-hover:bg-blue-50'}`}>
+                  {React.createElement(SUB_ICON[s.id] ?? CAT_ICON[cat.id] ?? LayoutGrid, {
+                    size: 15,
+                    className: pc ? `${pc.iconColor}` : 'text-slate-500 group-hover:text-blue-600 transition-colors'
+                  })}
                 </div>
                 <span className="text-xs font-medium text-slate-400">{s.tasks.length}</span>
               </div>
