@@ -10,6 +10,7 @@ import { CartView } from './components/CartView';
 import { SettingsPanel } from './components/SettingsPanel';
 import { ConstructionMap } from './components/ConstructionMap';
 import { GlobalSearch } from './components/GlobalSearch';
+import { TaskImage } from './components/TaskImage';
 import { Logo } from './components/Logo';
 import {
   Home, ShoppingCart, Settings, Search, ArrowLeft,
@@ -475,9 +476,19 @@ function TasksContent({ cat, sub, search, onSearch, onSelect, onBack }: {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
-        {search && <p className="text-sm text-slate-500 mb-3 font-medium">{filtered.length} resultados</p>}
-        <div className="space-y-1.5">
+      <div className="flex-1 overflow-y-auto pb-24 md:pb-8">
+        {/* Subcategory image banner */}
+        {!search && (
+          <div className="relative overflow-hidden h-36 flex-shrink-0">
+            <TaskImage subcategoryId={sub.id} categoryId={cat.id} alt={sub.name} variant="cover" className="absolute inset-0" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 px-4 md:px-8 py-3">
+              <p className="text-white/90 text-xs font-medium">{filtered.length} tarea{filtered.length !== 1 ? 's' : ''}</p>
+            </div>
+          </div>
+        )}
+        <div className="p-4 md:p-8 space-y-1.5">
+          {search && <p className="text-sm text-slate-500 mb-3 font-medium">{filtered.length} resultados</p>}
           {filtered.map(t => (
             <button key={t.id} onClick={() => onSelect(t)}
               className="group w-full bg-white border border-slate-200 hover:border-blue-300 hover:shadow-md px-4 py-3.5 rounded-xl flex items-center gap-3 transition-all text-left">
@@ -518,12 +529,23 @@ function ConfigContent({ task, cat, sub, results, qty, onQtyChange, leftovers: _
 
       {/* Desktop: 2-column */}
       <div className="hidden md:grid flex-1 overflow-hidden" style={{ gridTemplateColumns: '2fr 3fr' }}>
-        <div className="overflow-y-auto bg-white border-r border-slate-200 p-8 flex flex-col gap-8">
+        <div className="overflow-y-auto bg-white border-r border-slate-200 flex flex-col">
+          {/* Task image */}
+          <div className="relative flex-shrink-0 h-44 overflow-hidden">
+            <TaskImage subcategoryId={sub?.id} categoryId={cat.id} alt={task.name} variant="cover" className="absolute inset-0" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 px-6 py-4">
+              <p className="text-white/70 text-xs mb-0.5">{sub?.name}</p>
+              <h2 className="text-white font-bold text-sm leading-snug line-clamp-2">{task.name}</h2>
+            </div>
+          </div>
+          <div className="p-8 flex flex-col gap-8 flex-1">
           <TaskConfigurator task={task} phase={cat.phase} onQuantityChange={onQtyChange} onAppliedLeftoversChange={onLeftoversChange} />
           <button onClick={onAdd} disabled={qty <= 0}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-blue-900/20 text-sm flex items-center justify-center gap-2">
             {qty > 0 && results ? <>Agregar al Presupuesto <span className="font-normal opacity-80">— ${results.grandTotal.toLocaleString('es-AR', { maximumFractionDigits: 0 })}</span></> : 'Agregar al Presupuesto'}
           </button>
+          </div>
         </div>
         <div className="overflow-y-auto bg-slate-50 p-8">
           <ResultsDashboard task={task} results={results} />
@@ -532,6 +554,14 @@ function ConfigContent({ task, cat, sub, results, qty, onQtyChange, leftovers: _
 
       {/* Mobile: stacked */}
       <div className="md:hidden flex-1 overflow-y-auto pb-36">
+        {/* Image banner */}
+        <div className="relative h-40 flex-shrink-0 overflow-hidden">
+          <TaskImage subcategoryId={sub?.id} categoryId={cat.id} alt={task.name} variant="cover" className="absolute inset-0" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 px-4 py-3">
+            <p className="text-white font-semibold text-sm leading-snug line-clamp-2">{task.name}</p>
+          </div>
+        </div>
         <div className="p-4 space-y-6">
           <TaskConfigurator task={task} phase={cat.phase} onQuantityChange={onQtyChange} onAppliedLeftoversChange={onLeftoversChange} />
           {results && (
